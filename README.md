@@ -1,4 +1,6 @@
 
+# README:
+
 # Bank Customer Churn Prediction (GBDT)
 
 ## Project Overview
@@ -51,6 +53,8 @@ These features capture customer engagement and product usage behavior.
 - **Method**: 5-fold Stratified Cross-Validation
 - **Metric**: ROC-AUC
 - Stratification handles class imbalance correctly
+#### Adjust the decision threshold
+- Although adjusting the decision threshold improved **classification accuracy** , manual probability modification degraded AUC due to disruption of global ranking. Therefore, threshold optimization was preferred over probability manipulation. the accuracey is better while the threshold is 0.475
 
 ---
 
