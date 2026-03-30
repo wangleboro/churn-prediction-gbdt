@@ -55,7 +55,8 @@ These features capture customer engagement and product usage behavior.
 - Stratification handles class imbalance correctly
 #### Adjust the decision threshold
 - Although adjusting the decision threshold improved **classification accuracy** , manual probability modification degraded AUC due to disruption of global ranking. Therefore, threshold optimization was preferred over probability manipulation. the accuracey is better while the threshold is 0.475
-
+---
+Tuning hyperparameters is also an effective way to improve prediction performance. For example: GradientBoostingClassifier(n_estimators=3000,learning_rate=0.02,max_depth=5,subsample=0.8,max_features=0.8,random_state=42)
 ---
 
 ## Results
