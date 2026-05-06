@@ -24,121 +24,90 @@ Target variable:
 
 ---
 
-## ⚙️ Methodology
 
-### 1. Feature Selection
-Selected key features that are relevant to customer behavior, including:
-- Age
-- Balance
-- NumOfProducts
-- IsActiveMember
-- Behavioral indicators (e.g., ZeroBalance)
+# README:
 
----
+# Customer Churn Prediction using Gradient Boosting Ensemble
 
-### 2. Customer Segmentation (Clustering)
+This notebook focuses on predicting customer churn using multiple Gradient Boosting Decision Tree (GBDT) models and ensemble learning techniques. The project includes data preprocessing, feature engineering, feature importance analysis, model evaluation, and weighted soft-voting ensemble methods.
 
-Applied **KMeans clustering** to group customers into different segments.
+The final solution combines:
+- GradientBoostingClassifier
+- XGBoost
+- LightGBM
 
-👉 Idea:
-Different customer groups may have different churn patterns.
+using a weighted ensemble strategy to improve overall ROC-AUC performance.
 
 ---
+
+## Project Workflow
+
+### 1. Data Preprocessing
+- Missing value handling
+- Label encoding for categorical features
+- Feature scaling techniques
+- Train-validation split
+
+### 2. Feature Engineering
+Several feature engineering techniques were applied, including:
+- Frequency-based features
+- Categorical encoding
+- Distribution difference checking between train and test datasets
+- Feature importance analysis
+
+Special attention was given to high-cardinality categorical features such as `Surname`, because train-test distribution drift may cause overfitting.
 
 ### 3. Model Training
+Three tree-based boosting models were trained:
 
-For each cluster, trained separate models:
-
-- Gradient Boosting Classifier (GBDT)
+- GradientBoostingClassifier
 - XGBoost Classifier
+- LightGBM Classifier
 
-Selected the best-performing model for each cluster.
+Each model was evaluated independently using:
+- ROC-AUC
+- Validation metrics
+- Binary classification evaluation
 
----
+### 4. Ensemble Learning
+A weighted soft-voting ensemble was used to combine model probabilities:
 
-### 4. Model Evaluation
-
-Used **ROC-AUC** as the evaluation metric.
-
----
-
-## 📈 Results
-
-- **Method**: 5-fold Stratified Cross-Validation
-- **Metric**: ROC-AUC
-- Stratification handles class imbalance correctly
-#### Adjust the decision threshold
-- Although adjusting the decision threshold improved **classification accuracy** , manual probability modification degraded AUC due to disruption of global ranking. Therefore, threshold optimization was preferred over probability manipulation. the accuracey is better while the threshold is 0.475
----
-Tuning hyperparameters is also an effective way to improve prediction performance. For example: GradientBoostingClassifier(n_estimators=3000,learning_rate=0.02,max_depth=5,subsample=0.8,max_features=0.8,random_state=42)
----
-
-## Results
-- The model shows **stable ROC-AUC across folds**
-- Feature importance analysis indicates that:
-  - Age
-  - NumOfProducts
-  - IsActiveMember
-  - SingleProduct
-  - Geography
-  - Balance
-  are strong predictors of churn
+```python
+pred_avg = (
+    0.4 * y_pred1 +
+    0.34 * y_pred2 +
+    0.26 * y_pred3
+)
+```
 
 
-<img width="1586" height="837" alt="image" src="https://github.com/user-attachments/assets/7aa3a96b-c42c-42a2-a76e-7e80ca09e7bd" />
+###  Feature Importance Comparison
 
----
+Feature importance scores from all three models were compared to analyze:
 
-## 💡 Key Insights
+Shared important features
+Model-specific patterns
+Potential overfitting risks
+Evaluation Metric
 
-- Inactive customers are more likely to churn
-- Customers with fewer products show higher churn risk
-- Behavioral features are more important than demographic features
+### The primary evaluation metric is:
 
----
+ROC-AUC Score
 
-## 🛠 Tools & Technologies
+because churn prediction is a binary classification problem with probability-based evaluation.
 
-- Python
-- Pandas, NumPy
-- Scikit-learn
-- XGBoost
-- Matplotlib / Seaborn
+### Key Techniques Used
+Gradient Boosting Decision Trees (GBDT)
+Weighted Soft Voting Ensemble
+Feature Scaling
+Feature Importance Analysis
+Distribution Shift Detection
 
----
+### Conclusion
 
-## 🚀 Business Impact
+This notebook demonstrates how combining multiple boosting models through weighted ensemble learning can improve churn prediction performance. It also highlights the importance of analyzing feature distribution differences and avoiding overfitting caused by high-cardinality categorical variables.
 
-This model can help companies:
-
-- Identify high-risk customers
-- Apply targeted retention strategies
-- Reduce customer churn rate
-
----
-
-## 📁 Project Structure
-
-project/
-├── data/
-├── notebook/
-├── README.md
-
-
----
-
-## 🔮 Future Work
-
-- Hyperparameter optimization
-- Add more feature engineering
-- Try LightGBM / Neural Networks
-- Deploy model as API
-
----
-
-## 👤 Author
-
-Le Wang  
+The final ensemble achieved stronger and more stable ROC-AUC performance compared with individual models.
 
 
 
