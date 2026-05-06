@@ -1,3 +1,6 @@
+first version: churn-prediction-gbdt.ipynb
+final version: churn-prediction.ipynb
+
 # Customer Churn Prediction with Machine Learning
 
 ## 📌 Project Overview
